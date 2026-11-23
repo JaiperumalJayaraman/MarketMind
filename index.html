@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f7f5">
+  <meta name="description" content="MarketMind — an interactive two-sided marketplace product strategy, trust and revenue growth simulator.">
+  <title>MarketMind — Product Strategy Lab</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#lab" aria-label="MarketMind home">
+        <span class="brand-icon" aria-hidden="true">M<span class="brand-dot"></span></span>
+        <span class="brand-name">MarketMind<span class="brand-beta">LAB</span></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav" aria-label="Workspace">
+        <button class="nav-link active" type="button" data-view-link="lab" aria-current="page"><span class="nav-ico">◫</span> Strategy lab <span class="nav-arrow">↗</span></button>
+        <button class="nav-link" type="button" data-view-link="experiments"><span class="nav-ico">◇</span> Experiment plans</button>
+        <button class="nav-link" type="button" data-view-link="memo"><span class="nav-ico">▤</span> Decision memo</button>
+      </nav>
+      <div class="side-label saved-heading">YOUR WORK</div>
+      <div id="saved-list" class="saved-list"><p class="muted tiny">No saved strategies yet</p></div>
+      <div class="sidebar-bottom">
+        <div class="synthetic-note"><span class="synthetic-dot"></span><strong>Simulation environment</strong><span>Synthetic marketplace data, not live customer insights.</span></div>
+        <a href="https://github.com/JaiperumalJayaraman/MarketMind" target="_blank" rel="noopener noreferrer" class="repo-link">View source on GitHub ↗</a>
+      </div>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+        <span><span class="breadcrumb-muted">Product workspace</span> <span class="breadcrumb-slash">/</span> <strong id="view-label">Strategy lab</strong></span>
+        <div class="top-meta"><span class="status-dot"></span> Interactive prototype <span class="top-separator">·</span> Model v1.0</div>
+      </header>
+      <div class="page-body">
+        <div class="hero">
+          <div class="eyebrow"><span class="eyebrow-line"></span> TWO-SIDED MARKETPLACE STRATEGY</div>
+          <h1>Better decisions, <em>better marketplaces.</em></h1>
+          <p>Every growth lever creates a trade-off. Explore how product choices affect buyers, sellers, and the bottom line—before committing to a test.</p>
+          <div class="hero-pills"><span>120K monthly visitors</span><span>1,800 active sellers</span><span>India · INR</span><span>Illustrative dataset</span></div>
+        </div>
+
+        <section id="view-lab" class="view" aria-label="Strategy lab">
+          <div class="section-top">
+            <div><div class="eyebrow muted-eyebrow">01 / DECIDE</div><h2>Choose your strategic bet</h2><p>Start with a strategy, then adjust the six product levers.</p></div>
+            <div class="toolbar-actions">
+              <button class="btn btn-light" id="reset-btn" type="button">↺ Reset</button>
+              <button class="btn btn-dark" id="save-btn" type="button">＋ Save strategy</button>
+            </div>
+          </div>
+          <div class="preset-group" id="preset-list" role="group" aria-label="Strategy presets"></div>
+          <div class="workspace-grid">
+            <section class="panel controls-panel">
+              <div class="panel-title-row"><div><div class="card-eyebrow">YOUR LEVERS</div><h3>Shape the marketplace</h3></div><span class="small-indicator">6 controls</span></div>
+              <p class="panel-subtitle">Changes recalculate the model instantly. Hold other variables constant to explore causality assumptions.</p>
+              <div id="control-list"></div>
+              <p class="model-hint">ⓘ These are assumed relationships, not validated causal effects. All figures are directional estimates.</p>
+            </section>
+            <section class="outcomes">
+              <div class="outcomes-header"><div><div class="card-eyebrow">PROJECTED OUTCOMES</div><h3>What changes?</h3></div><span class="live-label"><span class="status-dot"></span> Live model</span></div>
+              <div id="kpi-grid" class="kpi-grid" aria-live="polite"></div>
+              <article class="panel chart-panel">
+                <div class="panel-title-row"><div><div class="card-eyebrow">TRADE-OFFS</div><h3>Against the baseline</h3></div><span class="small-indicator">Monthly view</span></div>
+                <p class="panel-subtitle">Your selected scenario versus the unchanged marketplace.</p>
+                <div id="comparison-chart" class="comparison-chart" role="img" aria-label="Scenario versus baseline comparison"></div>
+                <div class="legend"><span><i class="legend-dot baseline-dot"></i> Baseline</span><span><i class="legend-dot scenario-dot"></i> Your scenario</span></div>
+              </article>
+            </section>
+          </div>
+
+          <div class="insights-grid">
+            <article class="panel insight-panel">
+              <div class="panel-title-row"><div><div class="card-eyebrow">MARKETPLACE HEALTH</div><h3>Who wins, who loses?</h3></div></div>
+              <p class="panel-subtitle">A decision is only as strong as its unintended consequences.</p>
+              <div id="health-metrics"></div>
+            </article>
+            <article class="panel insight-panel">
+              <div class="panel-title-row"><div><div class="card-eyebrow">LAUNCH GUARDRAILS</div><h3>Is this safe to test?</h3></div><span id="guardrail-count"></span></div>
+              <div id="guardrails"></div>
+              <div class="recommendation" id="recommendation" role="status"></div>
+            </article>
+          </div>
+          <article class="panel sensitivity-panel">
+            <div class="panel-title-row"><div><div class="card-eyebrow">SENSITIVITY CHECK</div><h3>What would one more step change?</h3></div><span class="small-indicator">One-at-a-time</span></div>
+            <p class="panel-subtitle">Finite differences around the current scenario—not a causal study. Negative step means the lever is already at its maximum.</p>
+            <div class="table-scroll"><table><thead><tr><th>Lever change</th><th>Completed orders</th><th>Contribution</th><th>Trust index</th></tr></thead><tbody id="sensitivity-table"></tbody></table></div>
+          </article>
+        </section>
+
+        <section id="view-experiments" class="view" aria-label="Experiment plans" hidden>
+          <div class="section-top"><div><div class="eyebrow muted-eyebrow">02 / VALIDATE</div><h2>Hypotheses, not guesses</h2><p>Use the simulator to identify a bet, then design a real experiment to validate it.</p></div></div>
+          <div class="experiment-intro"><div><strong>Decision rule</strong><p>No launch based on simulator outputs alone. Pre-register hypotheses, set guardrails, calculate sample size with real traffic, and assess incrementality.</p></div><div class="intro-mark">A/B</div></div>
+          <div id="experiment-cards" class="experiment-cards"></div>
+          <article class="panel tracker-panel"><div class="card-eyebrow">EVENT INSTRUMENTATION</div><h3>Minimum analytics contract</h3><p class="panel-subtitle">Track exposures and outcomes with stable IDs so analysis can connect intent to completed orders.</p>
+            <div class="table-scroll"><table><thead><tr><th>Event</th><th>Required properties</th><th>Why it matters</th></tr></thead>
+            <tbody><tr><td><code>experiment_exposed</code></td><td>experiment_id, variant, visitor_id, timestamp</td><td>Intention-to-treat assignment</td></tr>
+            <tr><td><code>search_results_viewed</code></td><td>session_id, seller_ids, positions, emerging_share</td><td>Seller discovery fairness</td></tr>
+            <tr><td><code>order_placed</code></td><td>order_id, buyer_id, seller_id, GMV</td><td>Funnel numerator</td></tr>
+            <tr><td><code>order_completed</code></td><td>order_id, completed_at, paid_amount, incentive_cost</td><td>North Star + economics</td></tr>
+            <tr><td><code>seller_active_week</code></td><td>seller_id, cohort, week_start</td><td>Supply-side retention</td></tr></tbody></table></div>
+          </article>
+        </section>
+
+        <section id="view-memo" class="view" aria-label="Decision memo" hidden>
+          <div class="section-top"><div><div class="eyebrow muted-eyebrow">03 / COMMUNICATE</div><h2>From analysis to a decision</h2><p>A one-page product recommendation you can defend in an APM interview.</p></div><button class="btn btn-dark" type="button" id="download-memo">↓ Download memo (.md)</button></div>
+          <div id="memo-content"></div>
+        </section>
+        <footer class="footer"><span>MARKETMIND / PRODUCT STRATEGY SIMULATOR</span><span>Made for learning and product thinking · Synthetic inputs · No external data</span></footer>
+      </div>
+    </main>
+  </div>
+  <div id="toast" class="toast" aria-live="polite" role="status"></div>
+</body>
+</html>
